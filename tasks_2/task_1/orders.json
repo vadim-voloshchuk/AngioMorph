@@ -1,0 +1,17 @@
+[
+  {
+    "order_id": "ORD-001",
+    "customer": {"user_id": 101, "region": "EU"},
+    "items": [
+      {"product": "Laptop", "price": 1200.0, "qty": 1},
+      {"product": "Mouse", "price": 25.5, "qty": 2}
+    ]
+  },
+  {
+    "order_id": "ORD-002",
+    "customer": {"user_id": 102, "region": "US"},
+    "items": [
+      {"product": "Keyboard", "price": 45.0, "qty": 1}
+    ]
+  }
+]
