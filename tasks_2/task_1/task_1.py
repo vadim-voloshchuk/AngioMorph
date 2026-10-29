@@ -19,10 +19,15 @@ def process_nested_orders(file_path: Path | str) -> pl.DataFrame:
     if not src.is_file():
         raise FileNotFoundError(f"Файл {src} не найден!")
 
+
     # ВАШ КОД ЗДЕСЬ:
     # 1. Прочитать JSON
+    df = pl.read_json(src)
     # 2. Использовать explode для списка товаров
+    df = df.explode("items")
     # 3. Использовать unnest для структур customer и items
+    df = df.unnest("customer", "items")
     # 4. Добавить колонку total_amount (price * qty)
+    df = df.with_columns(((pl.col("price"))*(pl.col("qty"))).alias("total_amount"))
     # return ...
-    return pl.DataFrame()
+    return df

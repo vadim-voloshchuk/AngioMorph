@@ -15,8 +15,7 @@ logger = logging.getLogger(__name__)
 
 EXTENDED_NAMES = [
     "Anna", "Alex", "Dima", "Ivan", "Ioan", "John", "Kate", "Philipp", 
-    "Olga", "Yuri", "Isaac", "Kira", "Anastasia", "V"
-                                                  "ladislav", "Nikita",
+    "Olga", "Yuri", "Isaac", "Kira", "Anastasia", "Vladislav", "Nikita",
     "Maria", "Sergey", "Elena", "Michael", "Sophia", "Daniel", "Emma",
     "David", "Olivia", "James", "William", "Mia", "Alexander", "Victor"
 ]
