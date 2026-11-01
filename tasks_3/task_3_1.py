@@ -2,6 +2,14 @@ import functools
 from typing import Callable, Any
 
 # --- Здесь предполагается ваше решение ---
+def call_counter(func: Callable[..., Any]) -> Callable[..., Any]:
+    @functools.wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        wrapper.calls += 1
+        return func(*args, **kwargs)
+
+    wrapper.calls = 0
+    return wrapper
 
 def test_call_counter() -> None:
     @call_counter
