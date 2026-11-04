@@ -25,5 +25,3 @@ def process_nested_orders(file_path: Path | str) -> pl.DataFrame:
     df = df.with_columns((pl.col("price") * pl.col("qty")).alias("total_amount"))
 
     return df
-
-# pytest "tasks_2/task_1/test_task_1.py" -v
