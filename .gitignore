@@ -16,6 +16,18 @@
 !3d/outputs_graph_analysis/
 !3d/outputs_graph_analysis/**
 
+!tasks/
+!tasks/**
+
+!tasks_2/
+!tasks_2/**
+
+!tasks_3/
+!tasks_3/**
+
+!tasks_4/
+!tasks_4/**
+
 __pycache__/
 *.pyc
 *.pyo

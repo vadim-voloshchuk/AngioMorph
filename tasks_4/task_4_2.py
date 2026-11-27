@@ -3,7 +3,10 @@ from polars.testing import assert_frame_equal
 
 
 def filter_before_expensive_agg(lf: pl.LazyFrame, min_year: int) -> pl.DataFrame:
-    # Напишите ваш код здесь
+    frame = lf.filter(pl.col("year") >= min_year)
+    frame = frame.group_by("user_id").agg(pl.col("amount").mean().alias("avg_amount"))
+    frame = frame.collect()
+    return frame
     raise NotImplementedError
 
 
@@ -16,7 +19,12 @@ def test_filter_before_agg_result_and_plan() -> None:
         }
     ).lazy()
 
-    plan = lf.filter(pl.col("year") >= 2024).group_by("user_id").agg(pl.col("amount").mean()).explain(optimized=True)
+    plan = (
+        lf.filter(pl.col("year") >= 2024)
+        .group_by("user_id")
+        .agg(pl.col("amount").mean())
+        .explain(optimized=True)
+    )
     assert "FILTER" in plan.upper()
 
     actual = filter_before_expensive_agg(lf, min_year=2024)
