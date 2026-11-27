@@ -1,0 +1,4 @@
+Задание 1: Построение ленивого пайплайна без лишних вычислений
+Суть задания:
+Напишите функцию build_sales_pipeline(lf: pl.LazyFrame) -> pl.LazyFrame, которая принимает LazyFrame с колонками category (строка), price (число), quantity (число) и is_returned (булево), и возвращает новый LazyFrame (не вызывая .collect() внутри!), который отбрасывает возвраты (is_returned == False), добавляет колонку revenue = price * quantity, группирует по category и считает суммарную выручку total_revenue (порядок строк при группировке фиксировать не обязательно, но удобно отсортировать по category).
+Подсказка: В Lazy API всё строится через .filter(), .with_columns(), .group_by(), .agg(), .sort(). На выходе должен остаться именно pl.LazyFrame.
