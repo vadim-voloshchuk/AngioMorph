@@ -3,8 +3,15 @@ from polars.testing import assert_frame_equal
 
 
 def build_sales_pipeline(lf: pl.LazyFrame) -> pl.LazyFrame:
-    # Напишите ваш код здесь
-    raise NotImplementedError
+    """Считает выручку по категориям без возвратов"""
+    return (
+        lf.filter(~pl.col("is_returned"))
+        .with_columns((pl.col("price") * pl.col("quantity")).alias("revenue"))
+        .group_by("category")
+        .agg(pl.col("revenue").sum().alias("total_revenue"))
+        .sort("category")
+    )
+
 
 def test_build_sales_pipeline_is_lazy() -> None:
     df = pl.DataFrame(

@@ -16,6 +16,10 @@
 !3d/outputs_graph_analysis/
 !3d/outputs_graph_analysis/**
 
+!tasks*/
+!tasks*/**
+!pyrefly.toml
+
 __pycache__/
 *.pyc
 *.pyo

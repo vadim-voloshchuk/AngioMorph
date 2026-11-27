@@ -1,13 +1,13 @@
 import functools
-from typing import Callable, Any
+
 
 def call_counter(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        wrapper.calls += 1
+        wrapper.calls += 1  # type: ignore
         return func(*args, **kwargs)
 
-    wrapper.calls = 0
+    wrapper.calls = 0  # type: ignore
     return wrapper
 
 

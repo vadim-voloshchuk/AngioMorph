@@ -1,7 +1,7 @@
-preset = "basic"
-exclude = [
-    ".venv/",
-    "venv/",
-    "__pycache__/",
-    "**/test_*.py"
+project-includes = ["**/*.py"]
+project-excludes = [
+    "**/.venv/**",
+    "**/venv/**",
+    "**/__pycache__/**",
+    "**/test_*.py",
 ]

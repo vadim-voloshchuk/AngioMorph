@@ -37,20 +37,22 @@ def test_json_file(tmp_path: Path) -> Path:
 @pytest.fixture
 def expected_dataframe() -> pl.DataFrame:
     """Эталонный датафрейм, который должен получиться в итоге."""
-    return pl.DataFrame({
-        "order_id": ["ORD-001", "ORD-001", "ORD-002"],
-        "user_id": [101, 101, 102],
-        "region": ["EU", "EU", "US"],
-        "product": ["Laptop", "Mouse", "Keyboard"],
-        "price": [1200.0, 25.5, 45.0],
-        "qty": [1, 2, 1],
-        "total_amount": [1200.0, 51.0, 45.0]
-    })
+    return pl.DataFrame(
+        {
+            "order_id": ["ORD-001", "ORD-001", "ORD-002"],
+            "user_id": [101, 101, 102],
+            "region": ["EU", "EU", "US"],
+            "product": ["Laptop", "Mouse", "Keyboard"],
+            "price": [1200.0, 25.5, 45.0],
+            "qty": [1, 2, 1],
+            "total_amount": [1200.0, 51.0, 45.0],
+        }
+    )
 
 
 def test_process_nested_orders(test_json_file: Path, expected_dataframe: pl.DataFrame):
     """Сам тест, сравнивающий результат вашей функции с эталоном."""
     result_df = process_nested_orders(test_json_file)
-    
+
     # Проверка на совпадение схем и данных
     assert_frame_equal(result_df, expected_dataframe, check_column_order=False)
