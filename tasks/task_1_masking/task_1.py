@@ -1,5 +1,7 @@
 from pathlib import Path
+
 import polars as pl
+
 
 # TODO: Реализуйте функцию загрузки и маскировки данных
 def process_masking(src: Path) -> pl.DataFrame:
@@ -13,6 +15,5 @@ def process_masking(src: Path) -> pl.DataFrame:
 
     data = pl.read_json(src)
     df = pl.DataFrame(data)
-    df = df.with_columns((pl.lit("!!!Masked!!!").alias('email')))
+    df = df.with_columns((pl.lit("!!!Masked!!!").alias("email")))
     return df
-

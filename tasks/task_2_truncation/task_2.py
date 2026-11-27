@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import polars as pl
 
 
@@ -14,6 +15,5 @@ def process_truncation(src: Path) -> pl.DataFrame:
 
     data = pl.read_json(src)
     df = pl.DataFrame(data)
-    df = df.with_columns(pl.col("skills").list.slice(0,2))
+    df = df.with_columns(pl.col("skills").list.slice(0, 2))
     return df
-    

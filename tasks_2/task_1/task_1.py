@@ -27,5 +27,5 @@ def process_nested_orders(file_path: Path | str) -> pl.DataFrame:
     df = df.explode("items", empty_as_null=False)
     df = df.unnest("customer")
     df = df.unnest("items")
-    df = df.with_columns((pl.col('price')*pl.col('qty')).alias("total_amount"))
+    df = df.with_columns((pl.col("price") * pl.col("qty")).alias("total_amount"))
     return df

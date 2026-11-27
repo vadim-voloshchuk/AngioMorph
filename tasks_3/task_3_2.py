@@ -1,6 +1,6 @@
 import functools
 import time
-from typing import Callable, Any
+from typing import Any, Callable
 
 
 def timeout_warning(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -13,8 +13,8 @@ def timeout_warning(func: Callable[..., Any]) -> Callable[..., Any]:
         if timeout > 0.5:
             print(f"Предупреждение: Функция '{func.__name__}' выполнялась {timeout:.2f} сек.")
         return res
-    return wrapper
 
+    return wrapper
 
 
 def test_timeout_warning_triggers(capsys) -> None:
@@ -28,6 +28,7 @@ def test_timeout_warning_triggers(capsys) -> None:
 
     captured = capsys.readouterr()
     assert "Предупреждение: Функция 'slow_function'" in captured.out
+
 
 def test_timeout_warning_does_not_trigger(capsys) -> None:
     @timeout_warning

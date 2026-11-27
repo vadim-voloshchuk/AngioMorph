@@ -1,5 +1,5 @@
 import functools
-from typing import Callable, Any
+from typing import Any, Callable
 
 
 def to_upper(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -7,7 +7,9 @@ def to_upper(func: Callable[..., Any]) -> Callable[..., Any]:
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         res = func(*args, **kwargs)
         return res.upper() if isinstance(res, str) else res
+
     return wrapper
+
 
 def test_to_upper_with_string() -> None:
     @to_upper
@@ -15,6 +17,7 @@ def test_to_upper_with_string() -> None:
         return "hello world"
 
     assert get_greeting() == "HELLO WORLD"
+
 
 def test_to_upper_with_non_string() -> None:
     @to_upper

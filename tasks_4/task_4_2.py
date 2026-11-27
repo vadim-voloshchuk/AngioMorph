@@ -19,7 +19,12 @@ def test_filter_before_agg_result_and_plan() -> None:
         }
     ).lazy()
 
-    plan = lf.filter(pl.col("year") >= 2024).group_by("user_id").agg(pl.col("amount").mean()).explain(optimized=True)
+    plan = (
+        lf.filter(pl.col("year") >= 2024)
+        .group_by("user_id")
+        .agg(pl.col("amount").mean())
+        .explain(optimized=True)
+    )
     assert "FILTER" in plan.upper()
 
     actual = filter_before_expensive_agg(lf, min_year=2024)
