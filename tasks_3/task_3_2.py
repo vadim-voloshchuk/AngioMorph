@@ -37,5 +37,4 @@ def test_timeout_warning_does_not_trigger(capsys) -> None:
     assert res == 42
 
     captured = capsys.readouterr()
-    # Предупреждения быть не должно
     assert captured.out == ""
