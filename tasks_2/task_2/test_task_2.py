@@ -25,28 +25,32 @@ def test_csv_file(tmp_path: Path) -> Path:
 @pytest.fixture
 def expected_dataframe() -> pl.DataFrame:
     """Эталонный результат, который должен оказаться в Parquet-файле."""
-    return pl.DataFrame({
-        "log_id": [3, 4, 5],
-        "timestamp": ["2026-10-21T10:02", "2026-10-21T10:03", "2026-10-21T10:04"],
-        "user_id": [102, 103, 101],
-        "status_code": [500, 500, 404],
-        "response_time_ms": [1500, 800, 50],
-        "is_critical": [True, False, False]
-    })
+    return pl.DataFrame(
+        {
+            "log_id": [3, 4, 5],
+            "timestamp": ["2026-10-21T10:02", "2026-10-21T10:03", "2026-10-21T10:04"],
+            "user_id": [102, 103, 101],
+            "status_code": [500, 500, 404],
+            "response_time_ms": [1500, 800, 50],
+            "is_critical": [True, False, False],
+        }
+    )
 
 
-def test_process_massive_logs(test_csv_file: Path, expected_dataframe: pl.DataFrame, tmp_path: Path):
+def test_process_massive_logs(
+    test_csv_file: Path, expected_dataframe: pl.DataFrame, tmp_path: Path
+):
     output_file = tmp_path / "output_logs.parquet"
-    
+
     # 1. Запускаем ваш ETL-пайплайн
     process_massive_logs(test_csv_file, output_file)
-    
+
     # 2. Проверяем, что файл действительно создался
     assert output_file.exists(), "Parquet-файл не был создан!"
-    
+
     # 3. Читаем результат и сверяем с эталоном
     result_df = pl.read_parquet(output_file)
-    
+
     # Приводим типы user_id к одному стандарту, чтобы избежать конфликтов Int32/Int64 при парсинге
     result_df = result_df.cast({"user_id": pl.Int64})
     expected_dataframe = expected_dataframe.cast({"user_id": pl.Int64})
