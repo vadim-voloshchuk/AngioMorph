@@ -23,7 +23,6 @@ def test_build_sales_pipeline_is_lazy() -> None:
 
     result_lf = build_sales_pipeline(df.lazy())
 
-    # Проверяем, что вернулся именно LazyFrame, а не готовый DataFrame
     assert isinstance(result_lf, pl.LazyFrame)
 
     actual = result_lf.collect()
