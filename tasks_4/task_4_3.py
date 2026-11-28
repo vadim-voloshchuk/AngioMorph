@@ -5,13 +5,24 @@ from polars.testing import assert_frame_equal
 
 
 def read_eager_top_scores(csv_path: str, limit: int = 3) -> pl.DataFrame:
-    # Напишите ваш код здесь
-    raise NotImplementedError
+    return (
+        pl.read_csv(csv_path)
+        .filter(pl.col("score") >= 80)
+        .select("name", "score")
+        .sort("score", descending=True, maintain_order=True)
+        .head(limit)
+    )
 
 
 def read_lazy_top_scores(csv_path: str, limit: int = 3) -> pl.DataFrame:
-    # Напишите ваш код здесь
-    raise NotImplementedError
+    return (
+        pl.scan_csv(csv_path)
+        .filter(pl.col("score") >= 80)
+        .select("name", "score")
+        .sort("score", descending=True, maintain_order=True)
+        .head(limit)
+        .collect()
+    )
 
 def test_eager_and_lazy_return_identical_results(tmp_path: Path) -> None:
     csv_file = tmp_path / "scores.csv"

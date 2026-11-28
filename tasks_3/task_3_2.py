@@ -1,20 +1,17 @@
-import functools
 import time
+import functools
 from typing import Callable, Any
-
-
 def timeout_warning(func: Callable[..., Any]) -> Callable[..., Any]:
     @functools.wraps(func)
-    def wrapper(*args: Any, **kwargs: Any) -> Any:
+    def wrapper(*args:Any, **kwargs:Any)->Any:
         start = time.perf_counter()
         res = func(*args, **kwargs)
         end = time.perf_counter()
-        timeout = end - start
-        if timeout > 0.5:
-            print(f"Предупреждение: Функция '{func.__name__}' выполнялась {timeout:.2f} сек.")
+        elapsed = end - start
+        if elapsed >0.5:
+            print(f"Предупреждение: Функция '{wrapper.__name__}' выполнялась {elapsed:.2f} сек.")
         return res
     return wrapper
-
 
 
 def test_timeout_warning_triggers(capsys) -> None:

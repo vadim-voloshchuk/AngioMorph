@@ -1,21 +1,16 @@
 from pathlib import Path
+
 import polars as pl
 
 
+def drop_empty_columns(df: pl.DataFrame) -> pl.DataFrame:
+    return df.select([col for col in df.columns if df[col].null_count() < df.height])
+
+
 def process_split(src: Path) -> tuple[pl.DataFrame, pl.DataFrame]:
-    """Разбивает JSON на DataFrame пользователей и устройств."""
-    src = Path(src)
+    """Разбивает смешанный JSON на два DataFrame (users и devices) и удаляет пустые столбцы."""
+    df = pl.read_json(src, infer_schema_length=None)
+    df_users = df.filter(pl.col("type") == "user").drop("type")
+    df_devices = df.filter(pl.col("type") == "device").drop("type")
 
-    if not src.exists():
-        raise FileNotFoundError("Файл не найден!")
-
-    if src.suffix != ".json":
-        raise ValueError(f"Файл в формате {src.suffix} не поддерживается")
-
-    data = pl.read_json(src)
-    df = pl.DataFrame(data)
-
-    df_users = (df.filter(pl.col("type") == "user").select("user_id", "name"))
-    df_devices = (df.filter(pl.col("type") == "device").select("device_id", "os"))
-
-    return df_users, df_devices
+    return drop_empty_columns(df_users), drop_empty_columns(df_devices)

@@ -1,12 +1,13 @@
 import functools
 from typing import Callable, Any
-
-
-def to_upper(func: Callable[..., Any]) -> Callable[..., Any]:
+def to_upper(func: Callable[...,Any])->Callable[...,Any]:
     @functools.wraps(func)
-    def wrapper(*args: Any, **kwargs: Any) -> Any:
-        res = func(*args, **kwargs)
-        return res.upper() if isinstance(res, str) else res
+    def wrapper(*args:Any,**kwargs:Any)->Any:
+        result = func(*args,**kwargs)
+
+        if isinstance(result, str):
+            return result.upper()
+        return result
     return wrapper
 
 def test_to_upper_with_string() -> None:

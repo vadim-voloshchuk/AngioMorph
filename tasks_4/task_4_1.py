@@ -3,8 +3,13 @@ from polars.testing import assert_frame_equal
 
 
 def build_sales_pipeline(lf: pl.LazyFrame) -> pl.LazyFrame:
-    # Напишите ваш код здесь
-    raise NotImplementedError
+    return (
+        lf.filter(~pl.col("is_returned"))
+        .with_columns(revenue=pl.col("price") * pl.col("quantity"))
+        .group_by("category")
+        .agg(total_revenue=pl.col("revenue").sum())
+        .sort("category")
+    )
 
 def test_build_sales_pipeline_is_lazy() -> None:
     df = pl.DataFrame(
@@ -18,7 +23,6 @@ def test_build_sales_pipeline_is_lazy() -> None:
 
     result_lf = build_sales_pipeline(df.lazy())
 
-    # Проверяем, что вернулся именно LazyFrame, а не готовый DataFrame
     assert isinstance(result_lf, pl.LazyFrame)
 
     actual = result_lf.collect()

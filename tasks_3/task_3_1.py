@@ -7,10 +7,8 @@ def call_counter(func: Callable[..., Any]) -> Callable[..., Any]:
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         wrapper.calls += 1
         return func(*args, **kwargs)
-
     wrapper.calls = 0
     return wrapper
-
 def test_call_counter() -> None:
     @call_counter
     def say_hello() -> str:
